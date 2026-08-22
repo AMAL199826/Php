@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "Legacy CRM API",
+    "description": "REST API for the Legacy CRM system - JWT authenticated customer endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@crm.test\",\n  \"password\": \"admin123\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/login", "host": ["{{base_url}}"], "path": ["api", "login"] }
+      }
+    },
+    {
+      "name": "List Customers",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "{{base_url}}/api/customers?page=1&per_page=20&status=active&sort=name&order=asc",
+          "host": ["{{base_url}}"],
+          "path": ["api", "customers"],
+          "query": [
+            { "key": "page", "value": "1" },
+            { "key": "per_page", "value": "20" },
+            { "key": "status", "value": "active" },
+            { "key": "city", "value": "", "disabled": true },
+            { "key": "sort", "value": "name" },
+            { "key": "order", "value": "asc" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Single Customer",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{base_url}}/api/customers/1", "host": ["{{base_url}}"], "path": ["api", "customers", "1"] }
+      }
+    },
+    {
+      "name": "Create Customer",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+919999999999\",\n  \"company\": \"Acme Inc\",\n  \"city\": \"Mumbai\",\n  \"status\": \"active\",\n  \"notes\": \"Created via API\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/customers", "host": ["{{base_url}}"], "path": ["api", "customers"] }
+      }
+    },
+    {
+      "name": "Update Customer",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"inactive\",\n  \"notes\": \"Updated via API\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/customers/1", "host": ["{{base_url}}"], "path": ["api", "customers", "1"] }
+      }
+    },
+    {
+      "name": "Delete Customer",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{base_url}}/api/customers/1", "host": ["{{base_url}}"], "path": ["api", "customers", "1"] }
+      }
+    }
+  ]
+}
